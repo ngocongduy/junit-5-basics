@@ -37,7 +37,6 @@ public class VNCharacterUtils {
 		}
 		return sb.toString();
 	}
-
 	public static String reduceName(String inputStr) {
 		int maxLength = 26;
 		inputStr = inputStr.trim();
@@ -60,9 +59,7 @@ public class VNCharacterUtils {
 		
 		// If reduced is not enough, remove middle words
 		for (int i = 1; i < words.length - 1; i++) {
-			// Have to clone due to inputStr element will be reduced if a word is set to ""
-			String tempWords[] = words.clone();
-			inputStr = arrayToStringWithSpace(tempWords);
+			inputStr = arrayToStringWithSpace(words);
 			if (inputStr.getBytes().length <= maxLength) {
 				break;
 			}

@@ -2,6 +2,8 @@ package abc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.nio.charset.Charset;
+
 import org.junit.jupiter.api.Test;
 
 class VNCharacterUtilsTest {
@@ -12,19 +14,21 @@ class VNCharacterUtilsTest {
 		String[] exT1 = { "ỔỔỔỔỔỔỔỔ", "ỔỔỔỔ ỔỔỔỔ", "ỔỔỔỔ ỔỔỔỔ" };
 		String[] t2 = { "ỔỔỔ 22 333 ỔỔỔ", " ỔỔỔ  4444   1  ỔỔỔ " };
 		String[] exT2 = { "ỔỔỔ 22 333 ỔỔỔ", "ỔỔỔ 4444 1 ỔỔỔ" };
-		String[] t3 = { "ỔỔỔ 333 333 ỔỔỔ", " ỔỔỔ 333 333 ỔỔỔ ", "ỔỔỔ 1 22 22 ỔỔỔ", "ỔỔỔ 22 1 22 ỔỔỔ",
-				" ỔỔỔ 55555 1 ỔỔỔ ", " ỔỔỔ 1 55555 ỔỔỔ ", " ỔỔỔ 22 333  1 ỔỔỔ " };
-		String[] exT3 = { "ỔỔỔ 3 333 ỔỔỔ", "ỔỔỔ 3 333 ỔỔỔ", "ỔỔỔ 1 2 22 ỔỔỔ", "ỔỔỔ 2 1 22 ỔỔỔ", "ỔỔỔ 5 1 ỔỔỔ",
-				"ỔỔỔ 1 5 ỔỔỔ", "ỔỔỔ 2 3 1 ỔỔỔ" };
+		String[] t3 = { "ỔỔỔ 333 333 ỔỔỔ", "987654321 333 333 123456789", " ỔỔỔ 333 333 ỔỔỔ ", "ỔỔỔ 1 22 22 ỔỔỔ",
+				"ỔỔỔ 22 1 22 ỔỔỔ", " ỔỔỔ 55555 1 ỔỔỔ ", " ỔỔỔ 1 55555 ỔỔỔ ", " ỔỔỔ 22 333  1 ỔỔỔ " };
+		String[] exT3 = { "ỔỔỔ 3 333 ỔỔỔ", "987654321 333 333 123456789", "ỔỔỔ 3 333 ỔỔỔ", "ỔỔỔ 1 2 22 ỔỔỔ",
+				"ỔỔỔ 2 1 22 ỔỔỔ", "ỔỔỔ 5 1 ỔỔỔ", "ỔỔỔ 1 5 ỔỔỔ", "ỔỔỔ 2 3 1 ỔỔỔ" };
 		String[] t4 = { " ỔỔỔỔỔỔỔỔỔỔ ", "Ổ 5ỔỔỔỔỔ  4ỔỔỔỔ  3ỔỔỔ 2ỔỔ Ổ ", " Ổ 2ỔỔ 3ỔỔỔ 4ỔỔỔỔ  5ỔỔỔỔỔ Ổ" };
 		String[] exT4 = { "Ổ", "Ổ 5 4 3 2ỔỔ Ổ", "Ổ 2 3 4 5 Ổ" };
 		String[] t5 = { "ỔỔỔỔỔỔỔ  ỔỔỔỔỔỔỔ ", " ỔỔỔỔỔỔỔỔ  ỔỔỔỔỔỔỔỔ" };
 		String[] exT5 = { "Ổ ỔỔỔỔỔỔỔ", "Ổ Ổ" };
 		String[] t6 = { "1234567890 1 2 3 1234567890", " 1234567890  11 2  33 1234567890 ",
 				" 1234567890123  1 2 3 123456789012 ", " 123456789012345  1 2 3 12345678901 ",
-				" 123456789012345  1 2 3 ỔỔỔỔỔỔỔỔỔỔ " };
+				" 123456789012345  1 2 3 ỔỔỔỔỔỔỔỔỔỔ ", "1234567890123 1 2 3 1234567890", "123456789012 1 123456789012",
+				"12345678901 1 2 3 1234567890" };
 		String[] exT6 = { "1234567890 2 3 1234567890", "1234567890 2 3 1234567890", "1234567890123 123456789012",
-				"1 12345678901", "1 Ổ" };
+				"1 12345678901", "1 Ổ", "1234567890123 3 1234567890", "123456789012 123456789012",
+				"12345678901 2 3 1234567890" };
 
 		for (int i = 0; i < t1.length; i++) {
 			String actual = VNCharacterUtils.reduceName(t1[i]);
@@ -39,6 +43,13 @@ class VNCharacterUtilsTest {
 		for (int i = 0; i < t3.length; i++) {
 			String actual = VNCharacterUtils.reduceName(t3[i]);
 			String expected = exT3[i];
+			System.out.println(expected.getBytes().length);
+			System.out.println(actual.getBytes().length);
+			String s = System.getProperty("file.encoding");
+
+			String s1 = Charset.defaultCharset().toString();
+			System.out.println(s);
+			System.out.println(s1);
 			assertEquals(expected, actual, "String for case" + i + " not equal");
 		}
 		for (int i = 0; i < t4.length; i++) {
@@ -102,7 +113,7 @@ class VNCharacterUtilsTest {
 				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y' };
 		for (int i = 0; i < inputChars.length; i++) {
 			char actual = VNCharacterUtils.removeAccent(inputChars[i]);
-			assertEquals(expected[i],actual);
+			assertEquals(expected[i], actual);
 		}
 	}
 
@@ -165,10 +176,12 @@ class VNCharacterUtilsTest {
 	void test_remove_accent_remove_name() {
 		String[] t1 = { "ỔỔỔỔỔỔỔỔ ", "ỔỔỔỔ ỔỔỔỔ", " ỔỔỔỔ  ỔỔỔỔ " };
 		String[] exT1 = { "OOOOOOOO", "OOOO OOOO", "OOOO OOOO" };
-		String[] t2 = { "NGUYỄN ĐỒNG NGỌC NỮ", " DƯƠNG  THỊ  BÉ ", "ĐƯỜNG ĐƯỜNG ĐÔNG ĐÚC ĐƯỜNG","ĐƯỜNG ĐƯỜNG ĐƯỜNG ĐÚC ĐƯỜNG" };
-		String[] exT2 = { "NGUYEN DONG NGOC NU", "DUONG THI BE", "DUONG DUONG DONG DUC DUONG","DUONG D DUONG DUC DUONG" };
+		String[] t2 = { "NGUYỄN ĐỒNG NGỌC NỮ", " DƯƠNG  THỊ  BÉ ", "ĐƯỜNG ĐƯỜNG ĐÔNG ĐÚC ĐƯỜNG",
+				"ĐƯỜNG ĐƯỜNG ĐƯỜNG ĐÚC ĐƯỜNG" };
+		String[] exT2 = { "NGUYEN DONG NGOC NU", "DUONG THI BE", "DUONG DUONG DONG DUC DUONG",
+				"DUONG D DUONG DUC DUONG" };
 		String[] t3 = { " ĐƯỜNG   NGHĨA  NGUYỄN VĂN  NGÔ HIẾU ", " " };
-		String[] exT3 = { "DUONG N N VAN NGO HIEU", "", ""};
+		String[] exT3 = { "DUONG N N VAN NGO HIEU", "", "" };
 
 		for (int i = 0; i < t1.length; i++) {
 			String removedAccent = VNCharacterUtils.removeAccent(t1[i]);
