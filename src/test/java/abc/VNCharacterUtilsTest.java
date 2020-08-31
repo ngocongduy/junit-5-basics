@@ -81,18 +81,44 @@ class VNCharacterUtilsTest {
 	}
 
 	@Test
+	void test_revmoce_accent_char() {
+		char[] inputChars = { 'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í', 'Ò', 'Ó', 'Ô', 'Õ', 'Ù', 'Ú', 'Ý', 'à', 'á',
+				'â', 'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù', 'ú', 'ý', 'Ỳ', 'Ỹ', 'ỳ', 'ỹ', 'Ỷ', 'ỷ', 'Ỵ',
+				'ỵ', 'ự', 'Ự', 'ử', 'Ử', 'ữ', 'Ữ', 'ừ', 'Ừ', 'ứ', 'Ứ', 'ư', 'Ư', 'ụ', 'Ụ', 'ủ', 'Ủ', 'ũ', 'Ũ', 'ợ', 'Ợ',
+				'ở', 'Ở', 'ỡ', 'Ỡ', 'ờ', 'Ờ', 'ớ', 'Ớ', 'ơ', 'Ơ', 'ộ', 'Ộ', 'ổ', 'Ổ', 'ỗ', 'Ỗ', 'ồ', 'Ồ', 'ố', 'Ố', 'ọ',
+				'Ọ', 'ỏ', 'Ỏ', 'ị', 'Ị', 'ỉ', 'Ỉ', 'ĩ', 'Ĩ', 'ệ', 'Ệ', 'ể', 'Ể', 'ễ', 'Ễ', 'ề', 'Ề', 'ế', 'Ế', 'ẹ', 'Ẹ',
+				'ẻ', 'Ẻ', 'ẽ', 'Ẽ', 'ặ', 'Ặ', 'ẳ', 'Ẳ', 'ẵ', 'Ẵ', 'ằ', 'Ằ', 'ắ', 'Ắ', 'ă', 'Ă', 'ậ', 'Ậ', 'ẩ', 'Ẩ', 'ẫ',
+				'Ẫ', 'ầ', 'Ầ', 'ấ', 'Ấ', 'ạ', 'Ạ', 'ả', 'Ả', 'đ', 'Đ', 'A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'K', 'L',
+				'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'a', 'b', 'c', 'd', 'e', 'g', 'h', 'i', 'k',
+				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y' };
+		char[] expected = { 'A', 'A', 'A', 'A', 'E', 'E', 'E', 'I', 'I', 'O', 'O', 'O', 'O', 'U', 'U', 'Y', 'a', 'a',
+				'a', 'a', 'e', 'e', 'e', 'i', 'i', 'o', 'o', 'o', 'o', 'u', 'u', 'y', 'Y', 'Y', 'y', 'y', 'Y', 'y', 'Y',
+				'y', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'u', 'U', 'o', 'O',
+				'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o', 'O', 'o',
+				'O', 'o', 'O', 'i', 'I', 'i', 'I', 'i', 'I', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E', 'e', 'E',
+				'e', 'E', 'e', 'E', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a',
+				'A', 'a', 'A', 'a', 'A', 'a', 'A', 'a', 'A', 'd', 'D', 'A', 'B', 'C', 'D', 'E', 'G', 'H', 'I', 'K', 'L',
+				'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'a', 'b', 'c', 'd', 'e', 'g', 'h', 'i', 'k',
+				'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'x', 'y' };
+		for (int i = 0; i < inputChars.length; i++) {
+			char actual = VNCharacterUtils.removeAccent(inputChars[i]);
+			assertEquals(expected[i],actual);
+		}
+	}
+
+	@Test
 	void test_remove_accent_all() {
-		String inputStr = "Aa\r\n" + "Ăă\r\n" + "Ââ\r\n" + "Bb\r\n" + "Cc\r\n" + "Dd\r\n" + "Đđ\r\n" + "Ee\r\n" + "Êê\r\n"
-				+ "Gg\r\n" + "Hh\r\n" + "Ii\r\n" + "Kk\r\n" + "Ll\r\n" + "Mm\r\n" + "Nn\r\n" + "Oo\r\n" + "Ôô\r\n"
-				+ "Ơơ\r\n" + "Pp\r\n" + "Qq\r\n" + "Rr\r\n" + "Ss\r\n" + "Tt\r\n" + "Uu\r\n" + "Ưư\r\n" + "Vv\r\n"
-				+ "Xx\r\n" + "Yy\r\n" + "Áá\r\n" + "Àà\r\n" + "Ảả\r\n" + "Ãã\r\n" + "Ạạ\r\n" + "Ăă\r\n" + "Ắắ\r\n"
-				+ "Ằằ\r\n" + "Ẳẳ\r\n" + "Ẵẵ\r\n" + "Ặặ\r\n" + "Ââ\r\n" + "Ấấ\r\n" + "Ầầ\r\n" + "Ẩẩ\r\n" + "Ẫẫ\r\n"
-				+ "Ậậ\r\n" + "Đđ\r\n" + "Éé\r\n" + "Èè\r\n" + "Ẻẻ\r\n" + "Ẽẽ\r\n" + "Ẹẹ\r\n" + "Êê\r\n" + "Ếế\r\n"
-				+ "Ềề\r\n" + "Ểể\r\n" + "Ễễ\r\n" + "Ệệ\r\n" + "Íí\r\n" + "Ìì\r\n" + "Ỉỉ\r\n" + "Ĩĩ\r\n" + "Ịị\r\n"
-				+ "Óó\r\n" + "Òò\r\n" + "Ỏỏ\r\n" + "Õõ\r\n" + "Ọọ\r\n" + "Ôô\r\n" + "Ốố\r\n" + "Ồồ\r\n" + "Ổổ\r\n"
-				+ "Ỗỗ\r\n" + "Ộộ\r\n" + "Ơơ\r\n" + "Ớớ\r\n" + "Ờờ\r\n" + "Ởở\r\n" + "Ỡỡ\r\n" + "Ợợ\r\n" + "Úú\r\n"
-				+ "Ùù\r\n" + "Ủủ\r\n" + "Ũũ\r\n" + "Ụụ\r\n" + "Ưư\r\n" + "Ứứ\r\n" + "Ừừ\r\n" + "Ửử\r\n" + "Ữữ\r\n"
-				+ "Ựự\r\n" + "Ýý\r\n" + "Ỳỳ\r\n" + "Ỷỷ\r\n" + "Ỹỹ\r\n" + "Ỵỵ";
+		String inputStr = "Aa\r\n" + "Ăă\r\n" + "Ââ\r\n" + "Bb\r\n" + "Cc\r\n" + "Dd\r\n" + "Đđ\r\n" + "Ee\r\n"
+				+ "Êê\r\n" + "Gg\r\n" + "Hh\r\n" + "Ii\r\n" + "Kk\r\n" + "Ll\r\n" + "Mm\r\n" + "Nn\r\n" + "Oo\r\n"
+				+ "Ôô\r\n" + "Ơơ\r\n" + "Pp\r\n" + "Qq\r\n" + "Rr\r\n" + "Ss\r\n" + "Tt\r\n" + "Uu\r\n" + "Ưư\r\n"
+				+ "Vv\r\n" + "Xx\r\n" + "Yy\r\n" + "Áá\r\n" + "Àà\r\n" + "Ảả\r\n" + "Ãã\r\n" + "Ạạ\r\n" + "Ăă\r\n"
+				+ "Ắắ\r\n" + "Ằằ\r\n" + "Ẳẳ\r\n" + "Ẵẵ\r\n" + "Ặặ\r\n" + "Ââ\r\n" + "Ấấ\r\n" + "Ầầ\r\n" + "Ẩẩ\r\n"
+				+ "Ẫẫ\r\n" + "Ậậ\r\n" + "Đđ\r\n" + "Éé\r\n" + "Èè\r\n" + "Ẻẻ\r\n" + "Ẽẽ\r\n" + "Ẹẹ\r\n" + "Êê\r\n"
+				+ "Ếế\r\n" + "Ềề\r\n" + "Ểể\r\n" + "Ễễ\r\n" + "Ệệ\r\n" + "Íí\r\n" + "Ìì\r\n" + "Ỉỉ\r\n" + "Ĩĩ\r\n"
+				+ "Ịị\r\n" + "Óó\r\n" + "Òò\r\n" + "Ỏỏ\r\n" + "Õõ\r\n" + "Ọọ\r\n" + "Ôô\r\n" + "Ốố\r\n" + "Ồồ\r\n"
+				+ "Ổổ\r\n" + "Ỗỗ\r\n" + "Ộộ\r\n" + "Ơơ\r\n" + "Ớớ\r\n" + "Ờờ\r\n" + "Ởở\r\n" + "Ỡỡ\r\n" + "Ợợ\r\n"
+				+ "Úú\r\n" + "Ùù\r\n" + "Ủủ\r\n" + "Ũũ\r\n" + "Ụụ\r\n" + "Ưư\r\n" + "Ứứ\r\n" + "Ừừ\r\n" + "Ửử\r\n"
+				+ "Ữữ\r\n" + "Ựự\r\n" + "Ýý\r\n" + "Ỳỳ\r\n" + "Ỷỷ\r\n" + "Ỹỹ\r\n" + "Ỵỵ";
 		String expected = "Aa\r\n" + "Aa\r\n" + "Aa\r\n" + "Bb\r\n" + "Cc\r\n" + "Dd\r\n" + "Dd\r\n" + "Ee\r\n"
 				+ "Ee\r\n" + "Gg\r\n" + "Hh\r\n" + "Ii\r\n" + "Kk\r\n" + "Ll\r\n" + "Mm\r\n" + "Nn\r\n" + "Oo\r\n"
 				+ "Oo\r\n" + "Oo\r\n" + "Pp\r\n" + "Qq\r\n" + "Rr\r\n" + "Ss\r\n" + "Tt\r\n" + "Uu\r\n" + "Uu\r\n"
@@ -132,6 +158,35 @@ class VNCharacterUtilsTest {
 			System.out.println(r.length());
 			System.out.println(expects[i].length());
 			assertEquals(expects[i], r, "String are different");
+		}
+	}
+
+	@Test
+	void test_remove_accent_remove_name() {
+		String[] t1 = { "ỔỔỔỔỔỔỔỔ ", "ỔỔỔỔ ỔỔỔỔ", " ỔỔỔỔ  ỔỔỔỔ " };
+		String[] exT1 = { "OOOOOOOO", "OOOO OOOO", "OOOO OOOO" };
+		String[] t2 = { "NGUYỄN ĐỒNG NGỌC NỮ", " DƯƠNG  THỊ  BÉ ", "ĐƯỜNG ĐƯỜNG ĐÔNG ĐÚC ĐƯỜNG","ĐƯỜNG ĐƯỜNG ĐƯỜNG ĐÚC ĐƯỜNG" };
+		String[] exT2 = { "NGUYEN DONG NGOC NU", "DUONG THI BE", "DUONG DUONG DONG DUC DUONG","DUONG D DUONG DUC DUONG" };
+		String[] t3 = { " ĐƯỜNG   NGHĨA  NGUYỄN VĂN  NGÔ HIẾU ", " " };
+		String[] exT3 = { "DUONG N N VAN NGO HIEU", "", ""};
+
+		for (int i = 0; i < t1.length; i++) {
+			String removedAccent = VNCharacterUtils.removeAccent(t1[i]);
+			String actual = VNCharacterUtils.reduceName(removedAccent);
+			String expected = exT1[i];
+			assertEquals(expected, actual, "String for case" + i + " not equal");
+		}
+		for (int i = 0; i < t2.length; i++) {
+			String removedAccent = VNCharacterUtils.removeAccent(t2[i]);
+			String actual = VNCharacterUtils.reduceName(removedAccent);
+			String expected = exT2[i];
+			assertEquals(expected, actual, "String for case" + i + " not equal");
+		}
+		for (int i = 0; i < t3.length; i++) {
+			String removedAccent = VNCharacterUtils.removeAccent(t3[i]);
+			String actual = VNCharacterUtils.reduceName(removedAccent);
+			String expected = exT3[i];
+			assertEquals(expected, actual, "String for case" + i + " not equal");
 		}
 	}
 

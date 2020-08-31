@@ -1,53 +1,85 @@
 import abc.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.*;
+import java.nio.charset.Charset;
+import java.io.*;	
 
 public class abc {
 
-	public static void main(String[] args) {
-		/*
-		// TODO Auto-generated method stub
-		String[] ss = { "  ĐÂY LÀ STRING RẤT  LẠ ", "ĐƯỜNG 123 ĐƯỜNGĐƯỜNG 12345 12345 CUOI","ĐƯỜN yy ĐƯỜ ĐƯỜNGĐƯỜNGĐƯỜNG ĐƯỜNG","ĐƯỜN ĐƯỜNGĐƯỜNGĐƯỜNG ĐƯỜ yy ĐƯỜNG",
-				"ĐƯỜNGĐƯỜNGĐƯỜNGĐƯỜNGĐƯỜNGĐƯỜNGĐƯỜNGĐƯỜNG", "ĐƯỜNGĐƯỜNG ĐƯỜNGĐƯỜNG", " 123456789 123456789 123456789 ", ""};
-		System.out.println("Test with no accent remove----");
-		for (String s : ss) {
+	public static class UnicodeFormatter  {
+        
+        static public String byteToHex(byte b) {
+           // Returns hex String representation of byte b
+           char hexDigit[] = {
+              '0', '1', '2', '3', '4', '5', '6', '7',
+              '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'
+           };
+           char[] array = { hexDigit[(b >> 4) & 0x0f], hexDigit[b & 0x0f] };
+           return new String(array);
+        }
+     
+        static public String charToHex(char c) {
+           // Returns hex String representation of char c
+           byte hi = (byte) (c >>> 8);
+           byte lo = (byte) (c & 0xff);
+           return byteToHex(hi) + byteToHex(lo);
+        }
+     
+     } // class
+ 
+     private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
 
-			System.out.println(s + ' ' + s.getBytes().length);
-			String e = VNCharacterUtils.reduceName(s);
-			System.out.println(e + ' ' + e.getBytes().length);
-		}
-		System.out.println("Test with accent removed----");
-		for (String s : ss) {
+     private static String decodeUTF8(byte[] bytes) {
+         return new String(bytes, UTF8_CHARSET);
+     }
+     
+     private static byte[] encodeUTF8(String string) {
+         return string.getBytes(UTF8_CHARSET);
+     }
+     public static void printBytes(byte[] array, String name) {
+         for (int k = 0; k < array.length; k++) {
+             System.out.println(name + "[" + k + "] = " + "0x" +
+             UnicodeFormatter.byteToHex(array[k]));
+         }
+     }
 
-//			System.out.println(s + ' ' + s.getBytes().length);
-			String r = VNCharacterUtils.removeAccent(s);
-			String e = VNCharacterUtils.reduceName(r);
-			System.out.println(r + ' ' + r.getBytes().length);
-			System.out.println(e + ' ' + e.getBytes().length);
-		}
-//		String[] ss = { " 123456789 123456789 123456789 ", "CHUỖI RẤT LÀ BÌNH THƯỜNG", "" };
-//		for (String s : ss) {
-//			s = s.trim();
-//			String[] split = s.split(" ");
-//			System.out.println("-----");
-//			System.out.println(split[0].getBytes().length + split[split.length - 1].getBytes().length);
-//			for (String string : split) {
-//				System.out.println(string);
-//				System.out.println(string.getBytes().length);
-//			}
-//		}
- */
-		char[] chars = { 'À', 'Á', 'Â', 'Ã', 'È', 'É', 'Ê', 'Ì', 'Í', 'Ò', 'Ó', 'Ô', 'Õ',
-			'Ù', 'Ú', 'Ý', 'à', 'á', 'â', 'ã', 'è', 'é', 'ê', 'ì', 'í', 'ò', 'ó', 'ô', 'õ', 'ù', 'ú', 'ý', 'Ă', 'ă',
-			'Đ', 'đ', 'Ĩ', 'ĩ', 'Ũ', 'ũ', 'Ơ', 'ơ', 'Ư', 'ư', 'Ạ', 'ạ', 'Ả', 'ả', 'Ấ', 'ấ', 'Ầ', 'ầ', 'Ẩ', 'ẩ', 'Ẫ',
-			'ẫ', 'Ậ', 'ậ', 'Ắ', 'ắ', 'Ằ', 'ằ', 'Ẳ', 'ẳ', 'Ẵ', 'ẵ', 'Ặ', 'ặ', 'Ẹ', 'ẹ', 'Ẻ', 'ẻ', 'Ẽ', 'ẽ', 'Ế', 'ế',
-			'Ề', 'ề', 'Ể', 'ể', 'Ễ', 'ễ', 'Ệ', 'ệ', 'Ỉ', 'ỉ', 'Ị', 'ị', 'Ọ', 'ọ', 'Ỏ', 'ỏ', 'Ố', 'ố', 'Ồ', 'ồ', 'Ổ',
-			'ổ', 'Ỗ', 'ỗ', 'Ộ', 'ộ', 'Ớ', 'ớ', 'Ờ', 'ờ', 'Ở', 'ở', 'Ỡ', 'ỡ', 'Ợ', 'ợ', 'Ụ', 'ụ', 'Ủ', 'ủ', 'Ứ', 'ứ',
-			'Ừ', 'ừ', 'Ử', 'ử', 'Ữ', 'ữ', 'Ự', 'ự', 'Ỳ', 'ỳ', 'Ỵ', 'ỵ', 'Ỷ', 'ỷ', 'Ỹ', 'ỹ' };
-		for (char c : chars) {
-			int n = c;
-			System.out.println(c + "  " + n);
-			System.out.println((char)n);
-		}
-	}
-	
+  public static void main(String []args){
+	  String s = System.getProperty("file.encoding");
+	  
+	  String s1 = Charset.defaultCharset().toString();
+	  System.out.println(s);
+	  System.out.println(s1);
+//	  String a = InputStreamReader.getEncoding().toString();
+     
+	  /*
+     char a = 'ẳ';
+     char as[] = {'a','á','ả','ạ','ẳ'};
+     List<Integer> nums = new ArrayList<Integer>();
+     for (char c : as) 
+     { 
+         nums.add((int)c);
+         byte[] encoded = encodeUTF8(Character.toString(c));
+         String decoded = decodeUTF8(encoded);
+         String charToHex = UnicodeFormatter.charToHex(c);
+         //String str = new String(encoded, UTF8_CHARSET);
+         //printBytes(encoded,"Encoded represented as hex: ");
+         System.out.println(charToHex);
+         System.out.println(decoded);
+     }
+     Collections.sort(nums);
+     for (Integer n : nums) 
+     { 
+         System.out.println(n);
+         
+         String hex = Integer.toHexString(n);
+         System.out.println(hex);
+         int hexToInt = Integer.parseInt(hex, 16);
+         char intToChar = (char)hexToInt;
+         System.out.println(intToChar);
+     }
+  */
+  }
 
 }

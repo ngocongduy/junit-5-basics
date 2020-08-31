@@ -60,7 +60,7 @@ public class VNCharacterUtils {
 		
 		// If reduced is not enough, remove middle words
 		for (int i = 1; i < words.length - 1; i++) {
-			// Have to clone to inputStr element will be reduced if a word is set to ""
+			// Have to clone due to inputStr element will be reduced if a word is set to ""
 			String tempWords[] = words.clone();
 			inputStr = arrayToStringWithSpace(tempWords);
 			if (inputStr.getBytes().length <= maxLength) {
